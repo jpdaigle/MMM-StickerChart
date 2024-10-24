@@ -2,17 +2,19 @@ Module.register("MMM-StickerChart", {
 
     // Default module config.
     defaults: {
-        text: "Hello world"
+        charts: []
     },
 
     drawStickerChart: function(header, curValue, maxValue)
     {
         console.log(">>> stickerchart: " + header);
-        var elChart = document.createElement("div");
-        var elHdr = document.createElement("span");
+        var elChart = document.createElement("tr");
+        var elHdr = document.createElement("td");
         elHdr.innerText = header;
         elHdr.classList.add('bright');
+        const elTdStickers = document.createElement("td");
         elChart.appendChild(elHdr);
+        elChart.appendChild(elTdStickers);
 
         function marker(bFilled, sMarker) {
             var chk = document.createElement("i");
@@ -29,10 +31,10 @@ Module.register("MMM-StickerChart", {
         }
 
         for(var i = 0; i < curValue; i++) {
-            elChart.appendChild(marker(true, 'face-smile'));
+            elTdStickers.appendChild(marker(true, 'face-smile'));
         }
-        for(var i = 0; i < curValue; i++) {
-            elChart.appendChild(marker(false, 'face-smile'));
+        for(var i = curValue; i < maxValue; i++) {
+            elTdStickers.appendChild(marker(false, 'face-smile'));
         }
 
         return elChart;
@@ -40,11 +42,34 @@ Module.register("MMM-StickerChart", {
 
     // Override dom generator.
     getDom: function() {
+        console.log(this.config);
+        const _this = this;
+
         var wrapper = document.createElement("div");
-        wrapper.innerHTML = this.config.text;
-
-        wrapper.appendChild(this.drawStickerChart("Chloé", 5, 10));
-
+        const tblElement = document.createElement("table");
+        wrapper.appendChild(tblElement);
+        this.chartData.forEach(function(chartState){
+            console.log(chartState, chartState.name);
+            wrapper.appendChild(_this.drawStickerChart(chartState.name, chartState.value, chartState.max));
+        });
+        /*
+        this.config.charts.forEach(function(chartConfig){
+            console.log(chartConfig, chartConfig.name);
+            wrapper.appendChild(_this.drawStickerChart(chartConfig.name, 5, 10));
+        });
+        */
         return wrapper;
-    }
+    },
+
+    start: function start() {
+        // we have a google sheets URL in config.sheets_url, let's send it to the backend to fetch + parse
+        this.sendSocketNotification("STICKERCHART_LOAD_URL", {sheets_url: this.config.sheets_url});
+    },
+
+    socketNotificationReceived: function(notification, payload) {
+        console.log("RX>", notification, payload);
+        this.chartData = payload;
+        this.updateDom();
+    },
+
 });

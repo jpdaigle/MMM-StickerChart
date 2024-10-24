@@ -1,5 +1,4 @@
-var NodeHelper = require("node_helper");
-var https = require('https');
+import { get } from 'https';
 
 function is3xxRedirect(res) {
     if (res.statusCode >= 300 && res.statusCode < 400) {
@@ -11,10 +10,9 @@ function is3xxRedirect(res) {
 }
 
 async function fetchWithRedirects(url) {
-    console.log("STICKER> starting fetch:" + url);
     return new Promise((resolve, reject) => {
         let body = '';
-        const request = https.get(url, (response) => {
+        const request = get(url, (response) => {
             const { statusCode } = response;
 
             if (statusCode >= 300 && statusCode < 400 && response.headers.location) {
@@ -59,7 +57,7 @@ function csvParseStickerchartData(body) {
         if (isNaN(stickerMax) || isNaN(stickerCur) || !stickerName)
             continue;
 
-        parsed_stickers.push({ name: stickerName, max: stickerMax, value: stickerCur });
+        parsed_stickers.push({name: stickerName, max: stickerMax, value: stickerCur});
     }
     return parsed_stickers;
 }
@@ -70,19 +68,14 @@ function fetchAndParse(csv_url, payload_listener) {
         .then(stickerdata => payload_listener(stickerdata));
 }
 
+/*
+const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTD_gBM2apYxXvh5NbgPwoijioqotVnZ-aVwA1t0WJ-dUnLElG-g3LX3aKJP3xLsXgHKBMUeiLSsEnc/pub?gid=0&single=true&output=csv';
 
-module.exports = NodeHelper.create({
+fetchWithRedirects(csvUrl)
+    .then(data => csvParseStickerchartData(data))
+    .then(o => console.log(o));
+*/
 
-    socketNotificationReceived: function (notification, payload) {
-        var self = this;
-        console.log("STICKERCHART> rx notification, " + notification + " " + payload);
-        if (notification == 'STICKERCHART_LOAD_URL') {
-            // load and parse, then send back the payload
-            fetchAndParse(payload.sheets_url, function (sticker_state_array) {
-                if (!sticker_state_array)
-                    return;
-                self.sendSocketNotification('STICKERCHART_LOADED', sticker_state_array);
-            });
-        }
-    }
-});
+export {
+    fetchAndParse
+};
