@@ -30,7 +30,7 @@ That's it!
 Structure your sheet like the following, with one progress bar label per row. The first row (headers) is ignored, its values don't matter.
 Only the order of columns matters.
 
-<img src="./docs/gsheets_demo.png" style="max-width:30rem;">
+<img src="./docs/gsheets_demo.png" style="max-width:50%;">
 
 Now, we'll publish this worksheet as CSV to allow our MagicMirror integration to fetch it without any credentials.
 This will give you a **secret url** to use in your *MMM-StickerChart* configuration.
