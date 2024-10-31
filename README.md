@@ -36,6 +36,7 @@ Now, we'll publish this worksheet as CSV to allow our MagicMirror integration to
 This will give you a **secret url** to use in your *MMM-StickerChart* configuration.
 
 <img src="./docs/gsheets_publish.png" style="max-width:40rem;">
+
 <img src="./docs/gsheets_publish_dialog.png" style="max-width:30rem;">
 
 ### config.js

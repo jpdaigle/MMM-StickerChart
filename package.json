@@ -1,0 +1,31 @@
+{
+  "name": "mmm-stickerchart",
+  "version": "1.0.0",
+  "description": "MMM-StickerChart is a motivational sticker chart progress bar package for MagicMirror.",
+  "main": "node_helper.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jpdaigle/MMM-StickerChart.git"
+  },
+  "keywords": [
+    "magicmirror"
+  ],
+  "author": "Jean-Philippe Daigle (jpdaigle@gmail.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jpdaigle/MMM-StickerChart/issues"
+  },
+  "homepage": "https://github.com/jpdaigle/MMM-StickerChart#readme",
+  "dependencies": {
+    "magicmirror": "^2.29.0"
+  },
+  "devDependencies": {
+    "module-alias": "^2.2.3"
+  }
+}
