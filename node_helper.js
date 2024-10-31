@@ -85,4 +85,10 @@ module.exports = NodeHelper.create({
             });
         }
     }
+
 });
+
+module.exports.testonly = {
+    is3xxRedirect: is3xxRedirect,
+    csvParseStickerchartData: csvParseStickerchartData
+}
