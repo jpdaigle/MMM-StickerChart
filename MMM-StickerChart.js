@@ -52,16 +52,15 @@ Module.register("MMM-StickerChart", {
             console.log(chartState, chartState.name);
             wrapper.appendChild(_this.drawStickerChart(chartState.name, chartState.value, chartState.max));
         });
-        /*
-        this.config.charts.forEach(function(chartConfig){
-            console.log(chartConfig, chartConfig.name);
-            wrapper.appendChild(_this.drawStickerChart(chartConfig.name, 5, 10));
-        });
-        */
         return wrapper;
     },
 
     start: function start() {
+        requestData();
+        this.refreshtimer = setInterval(requestData, 10000);
+    },
+
+    requestData: function requestData() {
         // we have a google sheets URL in config.sheets_url, let's send it to the backend to fetch + parse
         this.sendSocketNotification("STICKERCHART_LOAD_URL", {sheets_url: this.config.sheets_url});
     },
