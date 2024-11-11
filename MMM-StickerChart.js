@@ -48,7 +48,8 @@ Module.register("MMM-StickerChart", {
         var wrapper = document.createElement("div");
         const tblElement = document.createElement("table");
         wrapper.appendChild(tblElement);
-        this.chartData.forEach(function(chartState){
+        const chartData = this.chartData || [];
+        chartData.forEach(function(chartState){
             console.log(chartState, chartState.name);
             wrapper.appendChild(_this.drawStickerChart(chartState.name, chartState.value, chartState.max));
         });
@@ -56,8 +57,8 @@ Module.register("MMM-StickerChart", {
     },
 
     start: function start() {
-        requestData();
-        this.refreshtimer = setInterval(requestData, 10000);
+        this.requestData();
+        this.refreshtimer = setInterval(requestData, 60 * 1000 * 10);
     },
 
     requestData: function requestData() {
