@@ -58,7 +58,10 @@ Module.register("MMM-StickerChart", {
 
     start: function start() {
         this.requestData();
-        this.refreshtimer = setInterval(requestData, 60 * 1000 * 10);
+        var _this = this;
+        this.refreshtimer = setInterval(function() {
+            _this.requestData();
+        }, 5 * 60 * 1000);
     },
 
     requestData: function requestData() {
@@ -67,7 +70,7 @@ Module.register("MMM-StickerChart", {
     },
 
     socketNotificationReceived: function(notification, payload) {
-        console.log("RX>", notification, payload);
+        console.log("RX_FROM_STICKERCHART_BACKEND>", notification, payload);
         this.chartData = payload;
         this.updateDom();
     },
